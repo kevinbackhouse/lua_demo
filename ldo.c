@@ -144,6 +144,9 @@ int luaD_rawrunprotected (lua_State *L, Pfunc f, void *ud) {
     (*f)(L, ud);
   );
   L->errorJmp = lj.previous;  /* restore old error handler */
+  if (oldnCcalls + L->nci < oldnCcalls) {
+    return LUA_ERRRUN;
+  }
   L->nCcalls = oldnCcalls + L->nci;
   return lj.status;
 }
